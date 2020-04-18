@@ -1,0 +1,187 @@
+///////////////////////////Variabler
+const maxHealth = 100;
+var health = maxHealth;
+var isGameOver = false;
+health++;
+print("Health: "+health+". Is game over:"+isGameOver)
+
+
+///////////////////////////strings
+var Level = 1;
+const name = "HERONAME";
+var message = "Hi, my name is "+name+" and I am level "+Level;
+print(message);
+Level++;
+message = "My level is now "+Level;
+print(message);
+message = "Now I whisper my name: "+name.toLowerCase() +" it is "+name.length+" letters long";
+print(message);
+
+
+///////////////////////////logiske udtryk
+var x = 1;
+var y = 2;
+var message;
+var result
+result = x<y;
+message = x+"<"+y+"="+result;
+print(message);
+result = x>=y;
+message = x+">="+y+"="+result;
+print(message);
+result = x>y;
+message = x+">"+y+"="+result;
+print(message);
+
+result = x > y ? "fisk":"hest";
+message = "result = x > y ? 'fisk':'hest'="+result;
+print(message);
+
+
+/////////////////////////////arrays
+var levels = [
+    [1.1,1.2,1.3],
+    [2.1,2.2,2.3,2.4],
+    [3.1,3.2],
+  ];
+
+    print("level 1: "+levels[0]);
+    print("level 2: "+levels[1]);
+    print("level 3: "+levels[2]);
+
+//flytter level fra level 2 til level 3
+var flyt = levels[1].pop();
+levels[2].push(flyt);
+
+    print("level 1: "+levels[0]);
+    print("level 2: "+levels[1]);
+    print("level 3: "+levels[2]);
+
+///////////////////////////// basic functions
+var currentHealth = 50;
+var healAmount = 10;
+
+function heal(){
+    currentHealth += healAmount;
+}
+print("Liv:"+currentHealth);
+heal();
+print("Heal");
+print("Liv:"+currentHealth);
+
+
+/////////////////////////////basic functions med parametre og return values
+const maxHealth = 110;
+var currentHealth = 50;
+var currentPercentage
+
+function heal(healAmount=5){  //heal for 5 som default, med mindre andet er sat
+    let newHealth = currentHealth + healAmount;
+    currentHealth= newHealth > 100 ? maxHealth : newHealth;
+     return (currentHealth /maxHealth)*100;
+
+}
+print("Liv:"+currentHealth);
+heal(10);
+print("Heal 10");
+print("Liv:"+currentHealth);
+currentPercentage = heal();
+print("Heal 5(default)");
+print("Liv:"+currentHealth);
+print("%"+currentPercentage);
+heal(100);
+print("Heal 100");
+print("Liv:"+currentHealth +" kan ikke gå over "+maxHealth+" liv");
+
+/////////////////////////////while loop - isGameOver loop
+const endPos = 5;
+var pos = 0;
+var enemyPos = 4;
+var isGameOver = false;
+
+while(!isGameOver){
+
+    while (pos<endPos && pos<enemyPos)
+    {
+        print("Your pos:" +pos);
+        print("Enemy pos:" +enemyPos);
+        print("End position:" +endPos);
+        pos++;
+    }
+    isGameOver = true;
+}
+
+print("Game is over - you lost");
+print("Your final pos:" +pos);
+print("Enemy final pos:" +enemyPos);
+
+
+/////////////////////////////Objects
+var gameCharacter = {
+    Name: "Bubbi",
+    xPos: 0,
+    items:["knife","water","shirt","key"],
+    move: function(x) {
+        this.xPos +=x;
+    }
+};
+
+print("Navn: "+gameCharacter.Name);
+print("Position: "+gameCharacter.xPos);
+print("Items: "+gameCharacter.items);
+
+print("move 10 and add fish");
+gameCharacter.move(10);
+gameCharacter.items.push("Fish");
+
+print("Position: "+gameCharacter.xPos);
+print("Items: "+gameCharacter.items);
+
+/////////////////////////////Objects - getters and setters
+var gameCharacter = {
+    Name: "Bubbi",
+    class: "Wizard",
+    health: 100,
+    xPos: 0,
+    items:["knife","water","shirt","key"],
+    get title(){
+     return this.Name +" the " +this.class;
+    },
+     move: function(x) {
+        this.xPos +=x;
+    },
+
+    set maxHealth(h){
+    this.health=h;
+    }
+
+};
+
+print("I am "+gameCharacter.title);
+print("Max health: "+gameCharacter.health);
+print("Set new max health to 30");
+gameCharacter.maxHealth=30;
+print("Max health: "+gameCharacter.health);
+
+
+/////////////////////////////Constructor functions
+function gameCharacter(name, xPos, health){
+ this.name = name;
+    this.xPos = xPos;
+    this.health = health;
+    this.move = function(x){
+     this.xPos +=x;
+    }
+    this.class = "Human";
+ }
+
+var gc1 = new gameCharacter("Belda", 0, 10);
+var gc2 = new gameCharacter("Gelda", 2, 40);
+var gc3 = new gameCharacter("Welda", 4, 55);
+
+
+print(gc1.class);
+print(gc2.health);
+print(gc3.name);
+gc3.move(3);
+print(gc3.xPos);

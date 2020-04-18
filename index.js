@@ -1,6 +1,6 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
-var numCollisions = 0;
+var life = 5;
 var score = 0;
 const screenWidth = 1000;
 const screenHeight = 500;
@@ -39,7 +39,7 @@ var player = new GameCharacter(50, 225, 30, 30, "white", 0);
 var goal = new GameCharacter(950, 200, 50, 100, "black", 0);
 var sprites = {};
 
-var loadSprites = function(){
+var loadSprites = function() {
   sprites.player = new Image();
   sprites.player.src = "hero.png";
 
@@ -49,8 +49,10 @@ var loadSprites = function(){
   sprites.goal = new Image();
   sprites.goal.src = "chest.png";
 
-  sprites.canvas= new Image();
+  sprites.canvas = new Image();
   sprites.canvas.src = "floor.png";
+  sprites.life = new Image();
+  sprites.life.src = "life.png";
 }
 
 
@@ -75,19 +77,16 @@ var checkCollisions = function(rect1, rect2) {
 
 var draw = function() {
   ctx.clearRect(0, 0, screenWidth, screenHeight)
-  //ctx.fillStyle = player.color;
-  //ctx.fillRect(player.x, player.y, player.width, player.height)
-  ctx.drawImage(sprites.canvas,0,0);
-  ctx.drawImage(sprites.player,player.x,player.y);
-  ctx.drawImage(sprites.goal,goal.x,goal.y);
-  //ctx.fillStyle = goal.color;
-  //ctx.fillRect(goal.x, goal.y, goal.width, goal.height)
-
-  for (var i = 0; i < enemy.length; i++) {
-    //ctx.fillStyle = enemy[i].color;
-    //ctx.fillRect(enemy[i].x, enemy[i].y, enemy[i].width, enemy[i].height)
-    ctx.drawImage(sprites.enemy,enemy[i].x,enemy[i].y);
+  ctx.drawImage(sprites.canvas, 0, 0);
+  ctx.drawImage(sprites.player, player.x, player.y);
+  ctx.drawImage(sprites.goal, goal.x, goal.y);
+    for (var i = 0; i < enemy.length; i++) {
+    ctx.drawImage(sprites.enemy, enemy[i].x, enemy[i].y);
   }
+
+  for (var i = 0; i < life; i++) {
+  ctx.drawImage(sprites.life, 40 +(40*i),40,20,20);
+}
 
 
 }
@@ -97,17 +96,16 @@ var update = function() {
   enemy.forEach(function(element) {
     if (checkCollisions(player, element)) {
       player.x = 100;
-      numCollisions++;
-      player.maxSpeed=4;
-      console.log("#collisions:" + numCollisions);
-      if (numCollisions == 5) {
+      life--;
+      player.maxSpeed = 4;
+      if (life <= 0) {
         alert("Gameover - score:" + score)
         score = 0;
-        numCollisions = 0;
+        life = 5;
         enemy[0].speed = 1;
         enemy[1].speed = 2;
         enemy[2].speed = 1;
-player.speed = 0;
+        player.speed = 0;
 
       }
     }
